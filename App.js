@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./components/HomeScreen";
+import FormRenderer from "./components/FormRender";
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        {/* Home Screen */}
+        <Stack.Screen 
+          name="Home" 
+          component={HomeScreen} 
+          options={{ title: "XML Form Renderer" }}
+        />
+        {/* Form Renderer Screen */}
+        <Stack.Screen 
+          name="FormRenderer" 
+          component={FormRenderer} 
+          options={({ route }) => ({
+            title: route.params.fromFile
+              ? "Predefined XML Form"
+              : "User XML Input",
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
